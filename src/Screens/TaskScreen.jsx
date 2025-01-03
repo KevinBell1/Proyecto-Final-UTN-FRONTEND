@@ -26,16 +26,6 @@ const TaskScreen =  () => {
             headers: getAuthenticateHeaders(),  
             body: JSON.stringify(newTodo),
         })
-
-
-        const user_id = sessionStorage.getItem('user_id')
-        const response2 = await fetch(`http://localhost:3000/api/task/${user_id}`, {
-            method: 'GET', 
-            headers: getAuthenticateHeaders(), 
-        });
-
-        const tasksList = await response.json();
-
         setTodos([...todos, newTodo]) 
     }
 
