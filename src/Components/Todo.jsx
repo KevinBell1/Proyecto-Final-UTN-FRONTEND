@@ -1,5 +1,6 @@
 import React from 'react'
-
+import { FaTrash } from "react-icons/fa"
+import { FaRegEdit } from "react-icons/fa";
 
 
 
@@ -8,8 +9,8 @@ const Todo = ({task, toggleComplete, deleteTodo, editTodo}) => {
         <div className='todo'>
             <p className={`${task.completed ? "completed" : "incompleted"}`} onClick={() => toggleComplete(task.id)} >{task.task}</p>
             <div>
-                {/* <FontAwesomeIcon className="edit-icon" icon={faPenToSquare} onClick={() => editTodo(task.id)}/>
-                <FontAwesomeIcon className="delete-icon" icon={faTrash} onClick={() => deleteTodo(task.id)}/> */}
+                <FaRegEdit className="edit-icon" onClick={() => editTodo(task.id)}/>
+                <FaTrash className="delete-icon" onClick={() => deleteTodo(task.id)}/>
             </div>
         </div>
     )

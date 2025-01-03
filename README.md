@@ -7,3 +7,4 @@
     npm i --save @fortawesome/free-regular-svg-icons
     npm i --save @fortawesome/free-brands-svg-icons
 )
+3. react-icons
