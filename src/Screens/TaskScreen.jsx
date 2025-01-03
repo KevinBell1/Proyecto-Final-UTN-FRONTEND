@@ -21,7 +21,7 @@ const TaskScreen =  () => {
             isEditing: false
         }
 
-        const response = await fetch('http://localhost:3000/api/task', {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/task`, {
             method: 'POST',
             headers: getAuthenticateHeaders(),  
             body: JSON.stringify(newTodo),
@@ -38,7 +38,7 @@ const TaskScreen =  () => {
     }
 
     const deleteTodo = (id) => {
-        fetch(`http://localhost:3000/api/task/${id}`, {
+        fetch(`${import.meta.env.VITE_API_URL}/api/task/${id}`, {
             method: 'DELETE',
             headers: getAuthenticateHeaders(),
 
