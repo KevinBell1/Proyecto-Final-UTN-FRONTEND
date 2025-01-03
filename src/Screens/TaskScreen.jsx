@@ -18,11 +18,10 @@ const TaskScreen =  () => {
             id: uuidv4(),
             task: todo,
             completed: false,
-            isEditing: false,
-            user_id: sessionStorage.getItem('user_id')
+            isEditing: false
         }
 
-        const response = await fetch('proyecto-final-utn-taupe.vercel.app/api/task', {
+        const response = await fetch('http://localhost:3000/api/task', {
             method: 'POST',
             headers: getAuthenticateHeaders(),  
             body: JSON.stringify(newTodo),
@@ -30,7 +29,7 @@ const TaskScreen =  () => {
 
 
         const user_id = sessionStorage.getItem('user_id')
-        const response2 = await fetch(`proyecto-final-utn-taupe.vercel.app/api/task/${user_id}`, {
+        const response2 = await fetch(`http://localhost:3000/api/task/${user_id}`, {
             method: 'GET', 
             headers: getAuthenticateHeaders(), 
         });
@@ -49,7 +48,7 @@ const TaskScreen =  () => {
     }
 
     const deleteTodo = (id) => {
-        fetch(`proyecto-final-utn-taupe.vercel.app/api/task/${id}`, {
+        fetch(`http://localhost:3000/api/task/${id}`, {
             method: 'DELETE',
             headers: getAuthenticateHeaders(),
 

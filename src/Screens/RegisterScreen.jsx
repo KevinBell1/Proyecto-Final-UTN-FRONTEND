@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import useForm from '../Hooks/useForm'
+import { useNavigate } from 'react-router-dom'
 
 const RegisterScreen = () => {
+    const navigate  = useNavigate()
     const { formState, handleChange } = useForm({
         name: '',
         email: '',
@@ -11,8 +13,7 @@ const RegisterScreen = () => {
         e.preventDefault()
         console.log('Formulario enviado con exito')
 
-        const responseHTTP = await fetch(`proyecto-final-utn-taupe.vercel.app
-/api/auth/register`, {
+        const responseHTTP = await fetch(`http://localhost:3000/api/auth/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -22,6 +23,7 @@ const RegisterScreen = () => {
         console.log(responseHTTP)
         const data = await responseHTTP.json()
         console.log(data)
+        navigate('/login')
     }
 
     return (

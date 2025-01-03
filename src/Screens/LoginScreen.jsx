@@ -13,8 +13,7 @@ const LoginScreen = () => {
     const handleLogin = async (e) => {
         e.preventDefault()
 
-        const responseHTTP = await fetch(`proyecto-final-utn-taupe.vercel.app
-/api/auth/login`, {
+        const responseHTTP = await fetch(`http://localhost:3000/api/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -29,7 +28,6 @@ const LoginScreen = () => {
 		}
 		else{
 			sessionStorage.setItem('access_token', data.data.access_token) 
-            sessionStorage.setItem('user_id', data.data.user_info.user_id)
             login()
 			navigate('/home')
 		}
