@@ -15,31 +15,7 @@ const RegisterScreen = () => {
     // Estado para manejar el estado de carga (loading)
     const [loading, setLoading] = useState(false)
 
-    const validateForm = () => {
-        const newErrors = {};
     
-        if (!formState.name) {
-            newErrors.name = ['El nombre es obligatorio.'];
-        }
-    
-        if (!formState.email) {
-            newErrors.email = ['El email es obligatorio.'];
-        }
-    
-        if (!formState.password) {
-            newErrors.password = ['La contraseña es obligatoria.'];
-        }
-    
-        return newErrors;
-    }
-    
-    const formErrors = validateForm();
-        if (Object.keys(formErrors).length > 0) {
-            setErrors(formErrors); // Si hay errores, actualizar el estado
-            setLoading(false);
-            return; // Detener el envío del formulario si hay errores
-        }
-
     const handleRegister = async (e) => {
         e.preventDefault()
 
