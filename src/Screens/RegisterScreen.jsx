@@ -3,27 +3,50 @@ import useForm from '../Hooks/useForm'
 import { useNavigate } from 'react-router-dom'
 
 const RegisterScreen = () => {
-    const navigate  = useNavigate()
+    const navigate = useNavigate()
     const { formState, handleChange } = useForm({
         name: '',
         email: '',
         password: ''
     })
+
+    // Estado para almacenar los errores de validación
+    const [errors, setErrors] = useState({});
+    // Estado para manejar el estado de carga (loading)
+    const [loading, setLoading] = useState(false)
     const handleRegister = async (e) => {
         e.preventDefault()
-        console.log('Formulario enviado con exito')
 
-        const responseHTTP = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formState)
-        })
-        console.log(responseHTTP)
-        const data = await responseHTTP.json()
-        console.log(data)
-        navigate('/login')
+        // Establecer loading en true cuando inicie el proceso
+        setLoading(true);
+        setErrors({})
+
+        try {
+            const responseHTTP = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formState)
+            })
+
+            const data = await responseHTTP.json()
+
+            if (!responseHTTP.ok) {
+                // Si hay errores, actualizar el estado de los errores
+                setErrors(data.data || {});
+                throw new Error(data.message || 'Error al registrar usuario');
+            }
+
+            console.log('Registro exitoso', data);
+            navigate('/login')
+        } catch (error) {
+            console.error('Error en el registro:', error);
+            alert(`Hubo un problema: ${error.message}`);
+        }
+        finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -41,6 +64,7 @@ const RegisterScreen = () => {
                         value={formState.name}
                         className='todo-input'
                     />
+                    {errors.name && <p className="error-text">{errors.name.join(", ")}</p>}
                 </div>
                 <div className='input-container'>
                     <label>Ingresa tu email</label>
@@ -53,6 +77,7 @@ const RegisterScreen = () => {
                         value={formState.email}
                         className='todo-input'
                     />
+                    {errors.email && <p className="error-text">{errors.email.join(", ")}</p>}
                 </div>
                 <div className='input-container'>
                     <label>Ingresa tu contraseña</label>
@@ -65,8 +90,10 @@ const RegisterScreen = () => {
                         value={formState.password}
                         className='todo-input'
                     />
+                    {errors.password && <p className="error-text">{errors.password.join(", ")}</p>}
                 </div>
-                <button type='submit' className='btn'>Enviar</button>
+                <button type='submit' className='btn'>{loading ? 'Cargando...' : 'Enviar'}</button>
+                {loading && <div className="spinner">Cargando...</div>}
             </form>
         </div>
     )
