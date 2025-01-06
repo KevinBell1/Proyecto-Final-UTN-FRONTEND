@@ -8,7 +8,7 @@ const EditTodoForm = ({editTodo, task}) => {
         const handleSubmitTask = async (e) => {
             e.preventDefault()
 
-            editTodo(formState.task, task.id)
+            editTodo(formState.task, task._id)
             setFormState({ ...formState, task: '' });
     };
     return (
