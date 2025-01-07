@@ -40,7 +40,7 @@ const RegisterScreen = () => {
 
                 if (data.code === "EMAIL_ALREADY_REGISTERED") {
                     setErrors({ email: [data.message] });
-                    alert(data.message);
+                    alert(data.message) // todo, configurar el css para ubicar el mensaje debajo del input
                 } else if(data.code === 'VALIDATION_ERROR'){
                     setErrors(data.data || {});
                 }else {

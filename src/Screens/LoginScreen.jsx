@@ -8,10 +8,15 @@ const LoginScreen = () => {
         email: '',
         password: ''
     })
+
+    const [generalError, setGeneralError] = useState('')
+
     const {login} = useContext(AuthContext)
 	const navigate  = useNavigate()
     const handleLogin = async (e) => {
         e.preventDefault()
+
+        setGeneralError('')
 
         const responseHTTP = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
             method: 'POST',
@@ -20,17 +25,21 @@ const LoginScreen = () => {
             },
             body: JSON.stringify(formState)
         })
-        console.log(responseHTTP)
+        
         const data = await responseHTTP.json()
-        console.log(data)
+
         if(!data.ok){
-			//Manejaran los estados de error
-		}
-		else{
-			sessionStorage.setItem('access_token', data.data.access_token) 
-            login()
-			navigate('/home')
-		}
+			if (data.code === "INCORRECT_PASSWORD") {
+                setErrors({ password: [data.message] });
+                alert(data.message) // todo, configurar el css para ubicar el mensaje debajo del input
+            } else if(data.code === 'VALIDATION_ERROR'){
+                setErrors(data.data || {});
+            }else {
+                setGeneralError(data.message || 'Error al iniciar session');
+            }
+            return;
+        }
+		
     }
 
     return (
