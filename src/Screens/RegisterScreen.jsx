@@ -14,14 +14,16 @@ const RegisterScreen = () => {
     const [errors, setErrors] = useState({});
     // Estado para manejar el estado de carga (loading)
     const [loading, setLoading] = useState(false)
+    // Estado para manejar mensajes generales de error
+    const [generalError, setGeneralError] = useState('')
 
-    
     const handleRegister = async (e) => {
         e.preventDefault()
 
         // Establecer loading en true cuando inicie el proceso
         setLoading(true);
         setErrors({})
+        setGeneralError('')
 
         try {
             const responseHTTP = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
@@ -35,12 +37,13 @@ const RegisterScreen = () => {
             const data = await responseHTTP.json()
 
             if (!responseHTTP.ok) {
-                // Manejar diferentes códigos de error
+
                 if (data.code === "EMAIL_ALREADY_REGISTERED") {
                     setErrors({ email: [data.message] });
-                } else {
+                } else if(data.code === 'VALIDATION_ERROR'){
                     setErrors(data.data || {});
-                    throw new Error(data.message || 'Error al registrar usuario');
+                }else {
+                    setGeneralError(data.message || 'Error al registrar usuario');
                 }
                 return;
             }
@@ -49,7 +52,7 @@ const RegisterScreen = () => {
             navigate('/login')
         } catch (error) {
             console.error('Error en el registro:', error);
-            alert(`Hubo un problema: ${error.message}`);
+            setGeneralError('Hubo un problema al registrar. Inténtalo nuevamente más tarde.');
         }
         finally {
             setLoading(false);
@@ -59,6 +62,13 @@ const RegisterScreen = () => {
     return (
         <div className='register-container'>
             <h1>Registrate en Brand name</h1>
+
+            {generalError && (
+                <div className="error-banner">
+                    <p>{generalError}</p>
+                </div>
+            )}
+            
             <form onSubmit={handleRegister} className='register-box'>
                 <div className='input-container'>
                     <label>Ingresa tu nombre</label>
