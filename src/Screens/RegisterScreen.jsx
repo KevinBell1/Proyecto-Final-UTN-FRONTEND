@@ -63,8 +63,12 @@ const RegisterScreen = () => {
         <div className='register-container'>
             <h1>Registrate en Brand name</h1>
 
+            {generalError && (
+                <div className="error-banner">
+                    <p>{generalError}</p>
+                </div>
+            )}
             
-
             <form onSubmit={handleRegister} className='register-box'>
                 <div className='input-container'>
                     <label>Ingresa tu nombre</label>
@@ -91,11 +95,6 @@ const RegisterScreen = () => {
                         className='todo-input'
                     />
                     {errors.email && <p className="error-text">{errors.email.join(", ")}</p>}
-                    {generalError && (
-                <div className="error-banner">
-                    <p>{generalError}</p>
-                </div>
-            )}
                 </div>
                 <div className='input-container'>
                     <label>Ingresa tu contraseña</label>
