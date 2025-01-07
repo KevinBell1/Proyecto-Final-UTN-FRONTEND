@@ -62,12 +62,6 @@ const RegisterScreen = () => {
     return (
         <div className='register-container'>
             <h1>Registrate en Brand name</h1>
-
-            {generalError && (
-                <div className="error-banner">
-                    <p>{generalError}</p>
-                </div>
-            )}
             
             <form onSubmit={handleRegister} className='register-box'>
                 <div className='input-container'>
