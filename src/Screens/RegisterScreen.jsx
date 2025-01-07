@@ -35,9 +35,14 @@ const RegisterScreen = () => {
             const data = await responseHTTP.json()
 
             if (!responseHTTP.ok) {
-                // Si hay errores, actualizar el estado de los errores
-                setErrors(data.data || {});
-                throw new Error(data.message || 'Error al registrar usuario');
+                // Manejar diferentes códigos de error
+                if (data.code === "EMAIL_ALREADY_REGISTERED") {
+                    setErrors({ email: [data.message] });
+                } else {
+                    setErrors(data.data || {});
+                    throw new Error(data.message || 'Error al registrar usuario');
+                }
+                return;
             }
 
             console.log('Registro exitoso', data);
