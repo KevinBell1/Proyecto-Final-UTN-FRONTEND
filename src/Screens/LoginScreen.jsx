@@ -24,8 +24,19 @@ const LoginScreen = () => {
         const data = await responseHTTP.json()
         console.log(data)
         if(!data.ok){
-			//Manejaran los estados de error
-		}
+            // Manejo de errores específicos
+            switch (data.code) {
+                case 'USER_NOT_FOUND':
+                    alert('El usuario no fue encontrado. Por favor, revisa el email ingresado.')
+                    break
+                case 'EMAIL_NOT_VERIFIED':
+                    alert('El email no ha sido verificado. Por favor, verifica tu correo.')
+                    break
+                default:
+                    // Para errores sin código específico, como contraseña incorrecta
+                    alert(data.message || 'Error al iniciar sesión.')
+            }
+        }
 		else{
 			sessionStorage.setItem('access_token', data.data.access_token) 
             login()
