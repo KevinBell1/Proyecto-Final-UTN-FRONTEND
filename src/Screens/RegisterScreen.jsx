@@ -40,6 +40,7 @@ const RegisterScreen = () => {
 
                 if (data.code === "EMAIL_ALREADY_REGISTERED") {
                     setErrors({ email: [data.message] });
+                    alert(data.message);
                 } else if(data.code === 'VALIDATION_ERROR'){
                     setErrors(data.data || {});
                 }else {
@@ -76,7 +77,7 @@ const RegisterScreen = () => {
                         className='todo-input'
                     />
                     {errors.name && <p className="error-text">{errors.name.join(", ")}</p>}
-                    {generalError && alert(generalError)}
+                    {generalError && <p className="error-banner">{generalError}</p>}
                 </div>
                 <div className='input-container'>
                     <label>Ingresa tu email</label>
