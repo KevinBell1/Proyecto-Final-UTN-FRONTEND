@@ -82,6 +82,7 @@ const RegisterScreen = () => {
                         className='todo-input'
                     />
                     {errors.name && <p className="error-text">{errors.name.join(", ")}</p>}
+                    {generalError && <p className="error-banner">{generalError}</p>}
                 </div>
                 <div className='input-container'>
                     <label>Ingresa tu email</label>
